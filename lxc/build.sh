@@ -10,7 +10,7 @@ CPPFLAGS="$CPPFLAGS $CFLAGS" \
 	--disable-selinux \
 	--disable-seccomp \
 	--disable-werror \
-	--enable-capabilities \
+	--disable-capabilities \
 	--disable-examples \
 	--disable-lua \
 	--disable-python \
