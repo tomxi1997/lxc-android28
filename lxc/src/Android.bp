@@ -1,0 +1,378 @@
+common_CFLAGS = [
+    "-U_FORTIFY_SOURCE",
+    "-DSBINDIR=\"/vendor/bin/lxc\"",
+    "-DLIBEXECDIR=\"/vendor/bin/lxc\"",
+    "-DLXC_DEFAULT_CONFIG=\"/vendor/etc/lxc/default.conf\"",
+    "-DLXC_GLOBAL_CONF=\"/vendor/etc/lxc/lxc.conf\"",
+    "-DLXC_USERNIC_CONF=\"/vendor/etc/lxc/lxc-usernet\"",
+    "-DLXC_USERNIC_DB=\"/data/lxc/run/nics\"",
+    "-DLXCPATH=\"/data/lxc/containers\"",
+    "-DLXCROOTFSMOUNT=\"/data/lxc/rootfs\"",
+    "-DLXCTEMPLATEDIR=\"/data/lxc/templates\"",
+    "-DLXCTEMPLATECONFIG=\"/data/lxc/config\"",
+    "-DLOGPATH=\"/data/lxc/log\"",
+    "-DDEFAULT_CGROUP_PATTERN=\"lxc/%n\"",
+    "-DLXCINITDIR=\"/vendor/libexec\"",
+    "-DRUNTIME_PATH=\"/data/lxc/run\"",
+    "-Wall",
+    "-Werror",
+    "-Wno-sign-compare",
+    "-Wno-unused-function",
+    "-Wno-unused-variable",
+    "-Wno-unused-parameter",
+    "-Wno-pointer-arith",
+]
+
+cc_defaults {
+    name: "lxc-defaults",
+    cflags: common_CFLAGS,
+    vendor: true,
+    local_include_dirs: ["include", "lxc", "lxc/cgroups", "lxc/lsm", "lxc/storage", "lxc/tools"]
+}
+
+cc_library {
+    name: "liblxc",
+    defaults: ["lxc-defaults"],
+    srcs: [
+        "include/netns_ifaddrs.c",
+        "include/lxcmntent.c",
+        "include/openpty.c",
+        "lxc/lsm/lsm.c",
+        "lxc/lsm/nop.c",
+        "lxc/af_unix.c",
+        "lxc/attach.c",
+        "lxc/caps.c",
+        "lxc/cgroups/cgfsng.c",
+        "lxc/cgroups/cgroup.c",
+        "lxc/cgroups/cgroup_utils.c",
+        "lxc/commands.c",
+        "lxc/commands_utils.c",
+        "lxc/conf.c",
+        "lxc/confile.c",
+        "lxc/confile_utils.c",
+        "lxc/criu.c",
+        "lxc/error.c",
+        "lxc/execute.c",
+        "lxc/freezer.c",
+        "lxc/file_utils.c",
+        "lxc/initutils.c",
+        "lxc/log.c",
+        "lxc/lxccontainer.c",
+        "lxc/lxclock.c",
+        "lxc/mainloop.c",
+        "lxc/namespace.c",
+        "lxc/nl.c",
+        "lxc/network.c",
+        "lxc/monitor.c",
+        "lxc/parse.c",
+        "lxc/raw_syscalls.c",
+        "lxc/ringbuf.c",
+        "lxc/rtnl.c",
+        "lxc/state.c",
+        "lxc/start.c",
+        "lxc/storage/btrfs.c",
+        "lxc/storage/dir.c",
+        "lxc/storage/loop.c",
+        "lxc/storage/lvm.c",
+        "lxc/storage/nbd.c",
+        "lxc/storage/overlay.c",
+        "lxc/storage/rbd.c",
+        "lxc/storage/rsync.c",
+        "lxc/storage/storage.c",
+        "lxc/storage/storage_utils.c",
+        "lxc/storage/zfs.c",
+        "lxc/string_utils.c",
+        "lxc/sync.c",
+        "lxc/terminal.c",
+        "lxc/utils.c"
+    ],
+    shared_libs: ["libcap"],
+    export_include_dirs : ["."],
+}
+
+cc_binary {
+    name: "lxc-attach",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_attach.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-autostart",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_autostart.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-cgroup",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_cgroup.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-config",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_config.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-console",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_console.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-destroy",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_destroy.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-device",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_device.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-execute",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_execute.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-freeze",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_freeze.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-info",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_info.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-monitor",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_monitor.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-ls",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_ls.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-copy",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_copy.c",
+        "lxc/storage/storage_utils.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-start",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_start.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-stop",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_stop.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-top",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_top.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-unfreeze",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_unfreeze.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-unshare",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_unshare.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-wait",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_wait.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-create",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_create.c",
+        "lxc/storage/storage_utils.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-snapshot",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_snapshot.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "lxc-checkpoint",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/tools/lxc_checkpoint.c",
+        "lxc/tools/arguments.c"
+    ]
+}
+
+cc_binary {
+    name: "init.lxc",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/cmd/lxc_init.c",
+        "lxc/initutils.c",
+        "lxc/parse.c",
+        "lxc/raw_syscalls.c",
+        "lxc/string_utils.c"
+    ],
+    relative_install_path: "lxc"
+}
+
+cc_binary {
+    name: "lxc-monitord",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/cmd/lxc_monitord.c",
+        "lxc/af_unix.c",
+        "lxc/log.c",
+        "lxc/mainloop.c",
+        "lxc/monitor.c",
+        "lxc/raw_syscalls.c",
+        "lxc/utils.c"
+    ],
+    relative_install_path: "lxc"
+}
+
+cc_binary {
+    name: "lxc-user-nic",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/cmd/lxc_user_nic.c",
+        "include/netns_ifaddrs.c",
+        "lxc/log.c",
+        "lxc/network.c",
+        "lxc/parse.c",
+        "lxc/raw_syscalls.c"
+    ],
+    relative_install_path: "lxc"
+}
+
+cc_binary {
+    name: "lxc-usernsexec",
+    defaults: ["lxc-defaults"],
+    shared_libs: ["libcap", "liblxc"],
+    srcs: [
+        "lxc/cmd/lxc_usernsexec.c",
+        "lxc/conf.c",
+        "lxc/log.c",
+        "lxc/file_utils.c",
+        "lxc/string_utils.c",
+        "lxc/utils.c"
+    ]
+}
+
+sh_binary {
+    name: "lxc-checkconfig",
+    src: "lxc/cmd/lxc-checkconfig.in",
+    vendor: true,
+}

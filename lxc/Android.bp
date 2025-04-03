@@ -1,0 +1,37 @@
+subdirs = [
+    "src"
+]
+
+phony {
+    name: "lxc",
+    required: [
+        "liblxc",
+        "lxc-attach",
+        "lxc-autostart",
+        "lxc-cgroup",
+        "lxc-config",
+        "lxc-console",
+        "lxc-destroy",
+        "lxc-device",
+        "lxc-execute",
+        "lxc-freeze",
+        "lxc-info",
+        "lxc-monitor",
+        "lxc-ls",
+        "lxc-copy",
+        "lxc-start",
+        "lxc-stop",
+        "lxc-top",
+        "lxc-unfreeze",
+        "lxc-unshare",
+        "lxc-wait",
+        "lxc-create",
+        "lxc-snapshot",
+        "lxc-checkpoint",
+        "lxc-checkconfig",
+        "init.lxc",
+        "lxc-monitord",
+        "lxc-user-nic",
+        "lxc-usernsexec"
+    ]
+}
