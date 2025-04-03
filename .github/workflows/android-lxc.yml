@@ -64,7 +64,7 @@ jobs:
         echo "--------------------------------------------------++------++"
         ls /android-ndk-r18b/toolchains/llvm/prebuilt/linux-x86_64/bin
         echo "--------------------------------------------------++------++"
-        ls /opt/toolchain/android-toolchain-arm_64-4.9-android-24/bin
+        ls /opt/toolchain/android-toolchain-arm_64-4.9-android-28/bin
         echo "--------------------------------------------------++------++"
         git clone https://github.com/tomxi1997/lxc-android28
         cd lxc-android28
